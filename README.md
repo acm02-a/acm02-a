@@ -1,6 +1,6 @@
 # ¡Hola! Soy Arian Casas 👋
 
-Estudiante de **Ingeniería de Sistemas** (UPC, Lima 🇵🇪) y co-fundador de
+Estudiante de **Ingeniería de Sistemas** (UPC, Lima, Perú) y co-fundador de
 **Manto**, una agencia de automatización con IA y desarrollo web para pymes.
 Me gusta construir cosas que trabajan solas: pipelines de datos, bots y
 automatizaciones que corren mientras duermo.
