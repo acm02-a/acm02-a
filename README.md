@@ -28,3 +28,4 @@ Si tienes un proceso repetitivo, probablemente se puede automatizar.
 ## 📫 Contacto
 
 - ✉️ ariancasas1@gmail.com
+- 💼 [LinkedIn](https://www.linkedin.com/in/arian-casas)
