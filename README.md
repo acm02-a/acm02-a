@@ -13,6 +13,8 @@ automatizaciones que corren mientras duermo.
 
 | Proyecto | Qué hace |
 |---|---|
+| [flujo](https://github.com/acm02-a/flujo) | **Motor de workflows construido desde cero** (un mini-n8n): pipelines en YAML con DAG, reintentos con backoff, plantillas, condiciones seguras sin `eval` y pasos de IA. Código de infraestructura, no solo de aplicación. |
+| [factura-ai](https://github.com/acm02-a/factura-ai) | **Procesamiento inteligente de facturas (IDP)**: extracción con IA + validación de negocio real (RUC con dígito verificador, IGV 18%) + decisión automática con human-in-the-loop. La IA con guardrails de producción. |
 | [macro-peru-analytics](https://github.com/acm02-a/macro-peru-analytics) | **Data analytics de punta a punta**: 26 años de datos macro del BCRP → SQLite → consultas SQL (window functions, CTEs) → notebook con hallazgos. ¿Sabías que el sol vale más hoy que en el 2000? |
 | [pen-radar](https://github.com/acm02-a/pen-radar) | Dashboard del dólar (USD/PEN) que se **actualiza solo** cada día con datos oficiales del BCRP: pipeline de datos + GitHub Actions que reescribe su propio README y publica un JSON consumible como API. |
 | [lead-bot](https://github.com/acm02-a/lead-bot) | API en FastAPI que captura leads desde una landing y **responde con IA** (Groq) o con respaldo por plantilla. SQLite, rate limiting, Docker y tests. |
