@@ -1,0 +1,561 @@
+<title>Comisiones Manto</title>
+<style>
+  :root {
+    --ground: #F6F8F7;
+    --surface: #FFFFFF;
+    --surface-2: #EDF2F0;
+    --ink: #14211F;
+    --muted: #5C6B68;
+    --accent: #0E5F58;
+    --accent-soft: #DBEAE6;
+    --signal: #8A5A0E;
+    --signal-soft: #F6EBD9;
+    --rule: #D9E1DE;
+    --rule-strong: #BCC9C5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0E1413;
+      --surface: #161E1C;
+      --surface-2: #1D2725;
+      --ink: #E8EEEC;
+      --muted: #97A7A3;
+      --accent: #54C3B1;
+      --accent-soft: #16302C;
+      --signal: #D79A45;
+      --signal-soft: #2B2317;
+      --rule: #263230;
+      --rule-strong: #384643;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0E1413;
+    --surface: #161E1C;
+    --surface-2: #1D2725;
+    --ink: #E8EEEC;
+    --muted: #97A7A3;
+    --accent: #54C3B1;
+    --accent-soft: #16302C;
+    --signal: #D79A45;
+    --signal-soft: #2B2317;
+    --rule: #263230;
+    --rule-strong: #384643;
+  }
+
+  :root {
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.25rem;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .brand {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.1rem, 6vw, 3rem);
+    line-height: 1.08;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 34rem;
+  }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+  .meta {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+  }
+
+  /* ---------- sections ---------- */
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .eyebrow::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  section h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 3.4vw, 1.85rem);
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  section h3 {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 650;
+    letter-spacing: 0.01em;
+  }
+  p { max-width: 38rem; }
+  .lede { font-size: 1.05rem; }
+  em { color: var(--muted); font-style: italic; }
+
+  /* ---------- commission cards ---------- */
+  .levels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+  .level {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--accent);
+    padding: 1.5rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .level-name {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .level-pct {
+    font-family: var(--serif);
+    font-size: 3.4rem;
+    line-height: 0.95;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+  .level-pct span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--muted);
+    margin-left: 0.15rem;
+  }
+  .level p { font-size: 0.95rem; color: var(--muted); margin: 0; }
+  .level p strong { color: var(--ink); font-weight: 600; }
+
+  .bonus {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 1.1rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .bonus .amount {
+    font-family: var(--mono);
+    font-size: 1.15rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  .bonus p { font-size: 0.95rem; color: var(--muted); margin: 0; }
+
+  /* ---------- table ---------- */
+  .scroller {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 34rem;
+    font-size: 0.92rem;
+  }
+  caption {
+    caption-side: bottom;
+    text-align: left;
+    padding: 0.75rem 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  th, td {
+    padding: 0.7rem 0.9rem;
+    text-align: right;
+    border-bottom: 1px solid var(--rule);
+    font-variant-numeric: tabular-nums;
+  }
+  th:first-child, td:first-child { text-align: left; font-variant-numeric: normal; }
+  thead th {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 1px solid var(--rule-strong);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.pay { color: var(--accent); font-weight: 600; }
+
+  /* ---------- numbered rules ---------- */
+  ol.rules {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    counter-reset: rule;
+  }
+  ol.rules li {
+    counter-increment: rule;
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 0.9rem;
+    align-items: baseline;
+  }
+  ol.rules li::before {
+    content: counter(rule, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  ol.rules strong { font-weight: 650; }
+  ol.rules p { margin: 0; color: var(--muted); }
+  ol.rules p strong { color: var(--ink); }
+
+  /* ---------- payment sequence ---------- */
+  .sequence {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .step {
+    background: var(--surface);
+    padding: 1.2rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .step .day {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .step .what { font-weight: 650; font-size: 0.95rem; }
+  .step .detail { font-size: 0.88rem; color: var(--muted); }
+
+  /* ---------- lists ---------- */
+  ul.plain {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: 38rem;
+  }
+  ul.plain li {
+    display: grid;
+    grid-template-columns: 1rem 1fr;
+    gap: 0.7rem;
+    align-items: baseline;
+    color: var(--muted);
+  }
+  ul.plain li::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    background: var(--rule-strong);
+    transform: translateY(-0.2em);
+  }
+  ul.plain li strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- caution ---------- */
+  .caution {
+    background: var(--signal-soft);
+    border-left: 3px solid var(--signal);
+    padding: 1.2rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .caution h3 { color: var(--signal); }
+  .caution ul.plain li::before { background: var(--signal); }
+
+  /* ---------- fields ---------- */
+  .fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .fields code {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    padding: 0.25rem 0.55rem;
+    color: var(--ink);
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  footer strong { color: var(--ink); font-weight: 600; }
+
+  a { color: var(--accent); }
+  a:focus-visible, code:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+</style>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="brand">Manto · Automatización con IA</div>
+    <h1>Comisiones para vendedores</h1>
+    <p class="standfirst">
+      Traes al cliente, Manto entrega el trabajo. Cobras <strong>30-40 % del pago
+      inicial</strong>, una sola vez, cuando la plata entra.
+    </p>
+    <div class="meta">
+      <span>Borrador v2</span>
+      <span>13 de agosto, 2026</span>
+      <span>Vigencia: revisión a los 90 días</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">01 — Cuánto cobras</div>
+    <h2>Dos niveles, según quién hace la venta</h2>
+    <div class="levels">
+      <div class="level">
+        <div class="level-name">Lead</div>
+        <div class="level-pct">30<span>% del setup</span></div>
+        <p>Traes el <strong>lead calificado</strong>, pero Manto entra a vender: hace la demo, negocia o rescata el cierre.</p>
+      </div>
+      <div class="level">
+        <div class="level-name">Cierre</div>
+        <div class="level-pct">40<span>% del setup</span></div>
+        <p><strong>Cierras solo.</strong> Manto entra únicamente para el alcance técnico y la firma.</p>
+      </div>
+    </div>
+    <p>
+      El nivel se define <strong>por cliente</strong> y se congela el día del cierre:
+      no se recalcula después. No hay comisión sobre la mensualidad — esa se queda en
+      Manto, que es la que sostiene el soporte y la operación del cliente.
+    </p>
+    <div class="bonus">
+      <div class="amount">Bono por volumen · S/ 300</div>
+      <p>
+        Al cerrar tu <strong>tercer cliente del trimestre</strong>, y por cada cliente
+        adicional en ese mismo trimestre. Monto fijo: premia el ritmo, no el tamaño
+        del ticket.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">02 — Cuánto es en plata</div>
+    <h2>Los números sobre servicios reales</h2>
+    <div class="scroller">
+      <table>
+        <caption>Precios de ejemplo — se reemplazan por el tarifario final antes de firmar.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Servicio</th>
+            <th scope="col">Setup</th>
+            <th scope="col">Mensualidad</th>
+            <th scope="col">Cobras al 30 %</th>
+            <th scope="col">Cobras al 40 %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Chatbot WhatsApp pyme</th>
+            <td>S/ 1,500</td>
+            <td>S/ 300</td>
+            <td class="pay">S/ 450</td>
+            <td class="pay">S/ 600</td>
+          </tr>
+          <tr>
+            <th scope="row">Automatización n8n</th>
+            <td>S/ 2,500</td>
+            <td>S/ 450</td>
+            <td class="pay">S/ 750</td>
+            <td class="pay">S/ 1,000</td>
+          </tr>
+          <tr>
+            <th scope="row">Web + asistente</th>
+            <td>S/ 3,500</td>
+            <td>S/ 350</td>
+            <td class="pay">S/ 1,050</td>
+            <td class="pay">S/ 1,400</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      La base de cálculo es el setup <strong>efectivamente cobrado</strong>, neto de
+      descuentos: si se aplica un descuento, la comisión baja en la misma proporción.
+    </p>
+  </section>
+
+  <section>
+    <div class="eyebrow">03 — Qué cuenta como tu venta</div>
+    <h2>Registra el lead antes del primer contacto</h2>
+    <p class="lede">
+      Si el cliente no está registrado en la planilla antes de que lo contactes, no
+      hay comisión. No es burocracia: sin registro no hay forma de resolver un
+      choque de atribución después, y ese choque siempre llega.
+    </p>
+    <ol class="rules">
+      <li><p><strong>Primero en registrar, gana.</strong> Si dos vendedores registran al mismo cliente, la comisión es del primero.</p></li>
+      <li><p><strong>Vigencia de 60 días.</strong> Si el cliente no firma en 60 días desde el registro, el lead se libera. Si firma después contigo activo en la cuenta, se respeta tu comisión; si firma por gestión de otro, es del otro.</p></li>
+      <li><p><strong>Los clientes que ya están en el pipeline de Manto no cuentan.</strong> Cualquiera que haya tenido contacto comercial con Manto antes de tu registro queda excluido. La planilla de clientes existentes es la referencia y la puedes consultar.</p></li>
+      <li><p><strong>Venta cerrada = plata en la cuenta.</strong> No cuenta la propuesta aceptada, ni el “sí” por WhatsApp, ni la factura emitida. Cuenta el pago recibido.</p></li>
+      <li><p><strong>Los referidos de tu cliente son tuyos.</strong> Si un cliente que trajiste refiere a otro, ese segundo cliente también es tuyo, con las mismas reglas.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="eyebrow">04 — Cuándo te pagan</div>
+    <h2>El reloj arranca cuando el cliente paga</h2>
+    <div class="sequence">
+      <div class="step">
+        <div class="day">Día 0</div>
+        <div class="what">El cliente paga</div>
+        <div class="detail">El setup entra a la cuenta de Manto. Recién ahí la venta existe.</div>
+      </div>
+      <div class="step">
+        <div class="day">Días 1 – 30</div>
+        <div class="what">Período de garantía</div>
+        <div class="detail">Si el cliente pide devolución o hace contracargo en este plazo, no hay comisión.</div>
+      </div>
+      <div class="step">
+        <div class="day">Hasta el día 45</div>
+        <div class="what">Se paga la comisión</div>
+        <div class="detail">Dentro de los 15 días calendario después de cerrada la garantía.</div>
+      </div>
+    </div>
+    <ul class="plain">
+      <li><strong>Pagos en cuotas:</strong> si el cliente paga el setup en partes, tu comisión se paga en la misma proporción, a medida que entra cada cuota.</li>
+      <li><strong>Bono por volumen:</strong> se paga junto con la comisión del cliente que lo gatilla, y solo si esa venta pasó su garantía.</li>
+      <li><strong>Devolución después de cobrada:</strong> se descuenta de la siguiente comisión.</li>
+      <li><strong>Formalidad:</strong> eres independiente, no hay vínculo laboral, y emites recibo por honorarios por cada comisión. <em>Falta confirmar con un contador el tratamiento de renta de 4.ª categoría antes de la primera comisión.</em></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">05 — Los límites</div>
+    <h2>Lo que no se promete sin aprobación</h2>
+    <div class="caution">
+      <h3>Requiere visto bueno por escrito de Manto</h3>
+      <ul class="plain">
+        <li>Ofrecer <strong>descuentos</strong>, plazos de pago o garantías distintas a las de la propuesta.</li>
+        <li>Prometer <strong>funcionalidades, integraciones o fechas de entrega</strong>.</li>
+        <li><strong>Firmar</strong> en nombre de Manto.</li>
+      </ul>
+      <p>
+        Un alcance prometido y no aprobado lo asume comercialmente quien lo prometió:
+        el costo de cumplirlo se descuenta de esa comisión. La razón es simple — lo
+        que se promete en la reunión lo termina construyendo alguien, y sale de la
+        misma bolsa que paga tu comisión.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">06 — La herramienta</div>
+    <h2>Una sola planilla, una fila por lead</h2>
+    <p>
+      Todo lo anterior se apoya en una hoja compartida. Si algo no está ahí, no
+      pasó. Campos que llenas tú:
+    </p>
+    <div class="fields">
+      <code>fecha_registro</code>
+      <code>vendedor</code>
+      <code>empresa</code>
+      <code>contacto</code>
+      <code>telefono</code>
+      <code>origen</code>
+      <code>estado</code>
+      <code>servicio</code>
+      <code>setup_acordado</code>
+      <code>mensualidad</code>
+      <code>notas</code>
+    </div>
+    <p>
+      El <code>estado</code> se mueve entre <em>registrado · reunión · propuesta ·
+      cerrado · perdido · vencido</em>. Los campos de descuento, nivel de comisión,
+      fecha de cobro y monto pagado los llena Manto, y quedan a la vista para que
+      puedas revisar tu propio cálculo cuando quieras.
+    </p>
+  </section>
+
+  <footer>
+    <p>
+      <strong>Este es un borrador.</strong> Los precios de la tabla son de ejemplo y
+      se reemplazan por el tarifario final antes de que firmes nada.
+    </p>
+    <p>
+      Se revisa a los 90 días o al quinto cliente cerrado, lo que ocurra primero. Si
+      algo acá no te cuadra, se conversa antes de arrancar, no después del primer
+      cierre.
+    </p>
+  </footer>
+
+</div>

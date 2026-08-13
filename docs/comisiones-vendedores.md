@@ -1,6 +1,6 @@
 # Comisiones de vendedores — Manto
 
-**Estado:** borrador v1 · Fase 1 (solo Arian) · Fecha: 2026-08-13
+**Estado:** borrador v2 · Fase 1 (solo Arian) · Fecha: 2026-08-13
 **Aplica a:** vendedores externos que traen clientes a Manto.
 
 Este documento define cómo se paga a un vendedor. Las secciones 1 a 5 son las
@@ -10,8 +10,8 @@ que se comparten con el vendedor. La sección 6 es **interna** — no se compart
 
 ## 1. El modelo en una línea
 
-El vendedor cobra **un porcentaje del pago inicial (setup) del cliente, una sola
-vez**. No cobra sobre la mensualidad.
+El vendedor cobra **30-40 % del pago inicial (setup) del cliente, una sola vez**.
+No cobra sobre la mensualidad.
 
 Es simple a propósito: el vendedor sabe exactamente cuánto gana el día que cierra,
 y Manto conserva el ingreso recurrente, que es lo que sostiene la operación.
@@ -20,24 +20,27 @@ y Manto conserva el ingreso recurrente, que es lo que sostiene la operación.
 
 ## 2. Cuánto se paga
 
-Base **40 %** del setup cobrado. Sube por desempeño, no por antigüedad:
+Dos niveles, según quién hace el trabajo de venta:
 
-| Concepto | % | Cuándo aplica |
+| Nivel | % del setup | Cuándo aplica |
 |---|---|---|
-| Base | 40 % | El vendedor trae el lead calificado, pero Arian entra a vender: hace la demo, negocia o rescata el cierre. |
-| + 10 % | 50 % | El vendedor cierra solo. Arian entra únicamente para el alcance técnico y la firma. |
-| + 10 % | 60 % | Además, es el **tercer cliente cerrado del vendedor en el trimestre** (del 3.º en adelante, incluido). |
+| Lead | **30 %** | El vendedor trae el lead calificado, pero Arian entra a vender: hace la demo, negocia o rescata el cierre. |
+| Cierre | **40 %** | El vendedor cierra solo. Arian entra únicamente para el alcance técnico y la firma. |
 
-Máximo **60 %**. El nivel se evalúa **por cliente**, y se congela al momento del
+Máximo **40 %**. El nivel se evalúa **por cliente** y se congela al momento del
 cierre — no se recalcula después.
+
+**Bono por volumen: S/ 300** al cerrar el **tercer cliente del trimestre**, y por
+cada cliente adicional en ese mismo trimestre. Es un monto fijo, no un porcentaje:
+premia el ritmo sin que la comisión se dispare justo en los tickets más grandes.
 
 ### Ejemplo (precios de ejemplo, reemplazar por los reales)
 
-| | Setup | Mensualidad | Comisión 40 % | Comisión 50 % | Comisión 60 % |
+| | Setup | Mensualidad | Comisión 30 % | Comisión 40 % | Le queda a Manto (al 40 %) |
 |---|---|---|---|---|---|
-| Chatbot WhatsApp pyme | S/ 1,500 | S/ 300 | S/ 600 | S/ 750 | S/ 900 |
-| Automatización n8n | S/ 2,500 | S/ 450 | S/ 1,000 | S/ 1,250 | S/ 1,500 |
-| Web + asistente | S/ 3,500 | S/ 350 | S/ 1,400 | S/ 1,750 | S/ 2,100 |
+| Chatbot WhatsApp pyme | S/ 1,500 | S/ 300 | S/ 450 | S/ 600 | S/ 900 + S/ 300/mes |
+| Automatización n8n | S/ 2,500 | S/ 450 | S/ 750 | S/ 1,000 | S/ 1,500 + S/ 450/mes |
+| Web + asistente | S/ 3,500 | S/ 350 | S/ 1,050 | S/ 1,400 | S/ 2,100 + S/ 350/mes |
 
 > **Pendiente:** no hay precios de lista de Manto documentados en ningún lado.
 > Esta tabla queda en ejemplo hasta que se fije el tarifario. Sin eso, el modelo
@@ -80,6 +83,8 @@ otro, ese segundo cliente también es del vendedor, con las mismas reglas.
   descuenta de la siguiente (*clawback*).
 - **Pagos en cuotas:** si el cliente paga el setup en partes, la comisión se paga
   en la misma proporción, a medida que entra cada cuota.
+- **Bono por volumen:** se paga junto con la comisión del cliente que lo gatilla,
+  y solo si esa venta pasó su período de garantía.
 - **Formalidad:** el vendedor es independiente, no hay vínculo laboral, y emite
   recibo por honorarios por cada comisión. *Confirmar con un contador el
   tratamiento de renta de 4.ª categoría y la retención que corresponda antes de
@@ -110,10 +115,10 @@ Una sola hoja compartida, una fila por lead. Campos mínimos:
 | `servicio` | Chatbot / automatización / web / mixto |
 | `setup_acordado` · `mensualidad` | |
 | `descuento` | Reduce la base de comisión. |
-| `nivel_comision` | 40 / 50 / 60, congelado al cierre. |
+| `nivel_comision` | 30 (lead) / 40 (cierre), congelado al cierre. |
 | `fecha_cobro` | Arranca el reloj de la garantía. |
 | `fecha_pago_comision` · `monto_comision` | |
-| `notas` | Quién cerró, si Arian entró a vender (define 40 vs 50). |
+| `notas` | Quién cerró, si Arian entró a vender (define 30 vs 40). |
 
 Esto vive bien en el Supabase `manto-demo` una vez que se reactive; mientras
 tanto, una hoja de cálculo compartida basta y es más rápido de operar.
@@ -124,20 +129,30 @@ tanto, una hoja de cálculo compartida basta y es más rápido de operar.
 
 ### 6.1 Riesgo de margen
 
-Pagar 40-60 % del setup solo es sostenible si el setup tiene margen real sobre
-el costo de implementar. Si el setup está puesto más o menos al costo de las
-horas de implementación (que es lo habitual al arrancar), un 60 % deja el primer
-mes en pérdida y esa pérdida se recupera con la mensualidad.
+El 30/40 % se fijó así porque **quien entrega el trabajo es Manto, no el
+vendedor**. Los esquemas de 50-60 % que se ven por ahí son de negocios donde el
+comercial hace todo el ciclo y la entrega cuesta casi nada — no es este caso.
+Acá el setup es justamente el pago que cubre las horas de implementación: cada
+punto de comisión sale de ahí.
 
-Antes de comprometer estos porcentajes con los amigos, calcular para cada
-servicio: **costo real de implementación** (horas + APIs + hosting) y en cuántos
-meses de mensualidad se recupera la comisión. Si el recupero pasa de **4-5
-meses**, bajar la base a 30-35 % o mover parte de la comisión al segundo pago del
-cliente. Con churn alto y comisión al 60 %, cada venta cuesta plata.
+Con el tope en 40 %, en el ejemplo del chatbot (setup S/ 1,500) quedan S/ 900
+para cubrir la implementación, más la mensualidad íntegra. Al 60 % quedaban
+S/ 600, que probablemente no cubren las horas: el mes 1 arrancaba en pérdida y
+había que esperar la mensualidad para recuperar. Ese es el tramo que se eliminó.
 
-No hace falta reajustar la escala antes de lanzar — con 2-3 vendedores y pocos
-cierres el riesgo es acotado y se aprende rápido. Pero revisar los números
-**antes** del quinto cliente, no después.
+Igual falta el dato duro: calcular para cada servicio el **costo real de
+implementación** (horas + APIs + hosting) y en cuántos meses de mensualidad se
+recupera la comisión. Si el recupero pasa de **4-5 meses**, bajar el nivel Lead a
+25 % o mover parte de la comisión al segundo pago del cliente.
+
+No hace falta reajustar nada antes de lanzar — con 2-3 vendedores y pocos cierres
+el riesgo es acotado y se aprende rápido. Pero revisar los números **antes** del
+quinto cliente, no después.
+
+**Si un vendedor pide más:** el margen para negociar no está en el porcentaje del
+setup, está en el bono por volumen (subirlo a S/ 400-500) o en un residual chico
+sobre la mensualidad de los clientes que él mismo retiene. Subir el % del setup es
+lo único que pega directo contra el costo de entregar.
 
 ### 6.2 Entrada del socio (Fase 2)
 
@@ -146,9 +161,9 @@ Regla que conviene fijar desde ahora, porque evita el conflicto más previsible:
 > **El porcentaje del vendedor no cambia cuando entra el socio.** Lo que se
 > reparte distinto es el resto, entre Arian y el socio.
 
-Es decir, el vendedor siempre ve el mismo número (40-60 % del setup). Si mañana
+Es decir, el vendedor siempre ve el mismo número (30-40 % del setup). Si mañana
 el socio entra a la cuenta, el vendedor no cobra menos: se ajusta el reparto
-interno del 40-60 % restante. Si el vendedor percibe que su comisión baja porque
+interno del 60-70 % restante. Si el vendedor percibe que su comisión baja porque
 "entró alguien más", se quema la relación — y son amigos.
 
 Para repartir el resto, el criterio que menos discusión genera es **quién entrega
