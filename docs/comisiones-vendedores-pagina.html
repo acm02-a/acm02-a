@@ -145,45 +145,85 @@
   .lede { font-size: 1.05rem; }
   em { color: var(--muted); font-style: italic; }
 
-  /* ---------- commission cards ---------- */
-  .levels {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 1rem;
-  }
-  .level {
+  /* ---------- headline figure ---------- */
+  .figure {
     background: var(--surface);
     border: 1px solid var(--rule);
     border-top: 3px solid var(--accent);
-    padding: 1.5rem 1.4rem;
+    padding: 1.8rem 1.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.4rem;
+  }
+  .figure .pct {
+    font-family: var(--serif);
+    font-size: clamp(4rem, 13vw, 5.5rem);
+    line-height: 0.82;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+  }
+  .figure .pct span {
+    font-size: 0.28em;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--muted);
+    margin-left: 0.1em;
+  }
+  .figure .gloss {
+    flex: 1 1 13rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .figure .gloss strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- responsibility split ---------- */
+  .split {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .split > div {
+    background: var(--surface);
+    padding: 1.3rem 1.2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.75rem;
   }
-  .level-name {
+  .split h3 {
     font-family: var(--mono);
     font-size: 0.72rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--accent);
-  }
-  .level-pct {
-    font-family: var(--serif);
-    font-size: 3.4rem;
-    line-height: 0.95;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.03em;
-  }
-  .level-pct span {
-    font-size: 1.1rem;
     font-weight: 500;
-    letter-spacing: 0;
-    color: var(--muted);
-    margin-left: 0.15rem;
   }
-  .level p { font-size: 0.95rem; color: var(--muted); margin: 0; }
-  .level p strong { color: var(--ink); font-weight: 600; }
+  .split ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.94rem;
+    color: var(--muted);
+  }
+  .split li {
+    display: grid;
+    grid-template-columns: 0.9rem 1fr;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+  .split li::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    background: var(--rule-strong);
+    transform: translateY(-0.2em);
+  }
+  .split li strong { color: var(--ink); font-weight: 600; }
 
   .bonus {
     background: var(--accent-soft);
@@ -368,11 +408,12 @@
     <div class="brand">Manto · Automatización con IA</div>
     <h1>Comisiones para vendedores</h1>
     <p class="standfirst">
-      Traes al cliente, Manto entrega el trabajo. Cobras <strong>30-40 % del pago
-      inicial</strong>, una sola vez, cuando la plata entra.
+      Consigues la reunión y muestras la demo. Manto negocia, cierra y entrega.
+      Cobras <strong>40 % del pago inicial</strong>, una sola vez, cuando la plata
+      entra.
     </p>
     <div class="meta">
-      <span>Borrador v2</span>
+      <span>Borrador v3</span>
       <span>13 de agosto, 2026</span>
       <span>Vigencia: revisión a los 90 días</span>
     </div>
@@ -380,23 +421,40 @@
 
   <section>
     <div class="eyebrow">01 — Cuánto cobras</div>
-    <h2>Dos niveles, según quién hace la venta</h2>
-    <div class="levels">
-      <div class="level">
-        <div class="level-name">Lead</div>
-        <div class="level-pct">30<span>% del setup</span></div>
-        <p>Traes el <strong>lead calificado</strong>, pero Manto entra a vender: hace la demo, negocia o rescata el cierre.</p>
+    <h2>Una sola tarifa, sin escala</h2>
+    <div class="figure">
+      <div class="pct">40<span>% del setup</span></div>
+      <p class="gloss">
+        Igual para todos los clientes y todos los tickets. <strong>No cambia</strong>
+        según el tamaño del trato ni según quién sea el cliente.
+      </p>
+    </div>
+    <p>
+      No hay comisión sobre la mensualidad: esa se queda en Manto, que es la que
+      sostiene el soporte y la operación del cliente mes a mes.
+    </p>
+    <div class="split">
+      <div>
+        <h3>Tú</h3>
+        <ul>
+          <li><strong>Consigues la reunión</strong> con el cliente.</li>
+          <li><strong>Muestras la demo</strong> que ya existe.</li>
+          <li>Registras y das seguimiento en la planilla.</li>
+        </ul>
       </div>
-      <div class="level">
-        <div class="level-name">Cierre</div>
-        <div class="level-pct">40<span>% del setup</span></div>
-        <p><strong>Cierras solo.</strong> Manto entra únicamente para el alcance técnico y la firma.</p>
+      <div>
+        <h3>Manto</h3>
+        <ul>
+          <li>Prepara la propuesta y el <strong>material a medida</strong>: página, mockup o flujo.</li>
+          <li>Lleva la <strong>reunión de negociación</strong> y cierra.</li>
+          <li>Implementa, entrega y da soporte.</li>
+        </ul>
       </div>
     </div>
     <p>
-      El nivel se define <strong>por cliente</strong> y se congela el día del cierre:
-      no se recalcula después. No hay comisión sobre la mensualidad — esa se queda en
-      Manto, que es la que sostiene el soporte y la operación del cliente.
+      Tu trabajo termina cuando la reunión está agendada y el cliente vio la demo con
+      interés real. De ahí en adelante entra Manto, y a esa reunión llega con algo
+      construido para el negocio del cliente.
     </p>
     <div class="bonus">
       <div class="amount">Bono por volumen · S/ 300</div>
@@ -419,8 +477,7 @@
             <th scope="col">Servicio</th>
             <th scope="col">Setup</th>
             <th scope="col">Mensualidad</th>
-            <th scope="col">Cobras al 30 %</th>
-            <th scope="col">Cobras al 40 %</th>
+            <th scope="col">Cobras (40 %)</th>
           </tr>
         </thead>
         <tbody>
@@ -428,21 +485,18 @@
             <th scope="row">Chatbot WhatsApp pyme</th>
             <td>S/ 1,500</td>
             <td>S/ 300</td>
-            <td class="pay">S/ 450</td>
             <td class="pay">S/ 600</td>
           </tr>
           <tr>
             <th scope="row">Automatización n8n</th>
             <td>S/ 2,500</td>
             <td>S/ 450</td>
-            <td class="pay">S/ 750</td>
             <td class="pay">S/ 1,000</td>
           </tr>
           <tr>
             <th scope="row">Web + asistente</th>
             <td>S/ 3,500</td>
             <td>S/ 350</td>
-            <td class="pay">S/ 1,050</td>
             <td class="pay">S/ 1,400</td>
           </tr>
         </tbody>
@@ -455,7 +509,31 @@
   </section>
 
   <section>
-    <div class="eyebrow">03 — Qué cuenta como tu venta</div>
+    <div class="eyebrow">03 — El estándar</div>
+    <h2>Qué cuenta como reunión válida</h2>
+    <p class="lede">
+      Manto llega a la negociación con material construido para ese cliente: su
+      página, su mockup, su flujo. Esas horas se invierten <strong>antes</strong> de
+      que nadie cobre. Por eso una reunión tiene que cumplir las cuatro:
+    </p>
+    <ol class="rules">
+      <li><p><strong>Con quien decide.</strong> El dueño o el gerente que firma y aprueba el gasto. No un asistente, no un familiar, no “se lo comento a mi jefe”.</p></li>
+      <li><p><strong>Negocio real y activo</strong>, con capacidad de pagar el servicio.</p></li>
+      <li><p><strong>El cliente sabe que es una reunión comercial.</strong> No una conversada de favor ni un “te presento a un amigo”.</p></li>
+      <li><p><strong>Ya vio la demo</strong> y mostró interés concreto en algo puntual de su negocio.</p></li>
+    </ol>
+    <p>
+      Si no cumple, Manto igual asiste — pero no construye material a medida hasta que
+      califique. Una reunión caída o un no-show no cuentan como gestión.
+    </p>
+    <p>
+      <em>Este filtro es lo que permite que la comisión sea 40 % plano para todos, en
+      vez de una escala donde cobras menos cuando el cliente llega crudo.</em>
+    </p>
+  </section>
+
+  <section>
+    <div class="eyebrow">04 — Qué cuenta como tu venta</div>
     <h2>Registra el lead antes del primer contacto</h2>
     <p class="lede">
       Si el cliente no está registrado en la planilla antes de que lo contactes, no
@@ -472,7 +550,7 @@
   </section>
 
   <section>
-    <div class="eyebrow">04 — Cuándo te pagan</div>
+    <div class="eyebrow">05 — Cuándo te pagan</div>
     <h2>El reloj arranca cuando el cliente paga</h2>
     <div class="sequence">
       <div class="step">
@@ -500,26 +578,34 @@
   </section>
 
   <section>
-    <div class="eyebrow">05 — Los límites</div>
-    <h2>Lo que no se promete sin aprobación</h2>
+    <div class="eyebrow">06 — Los límites</div>
+    <h2>El precio no se toca en la demo</h2>
     <div class="caution">
-      <h3>Requiere visto bueno por escrito de Manto</h3>
+      <h3>Nunca, sin excepción</h3>
       <ul class="plain">
-        <li>Ofrecer <strong>descuentos</strong>, plazos de pago o garantías distintas a las de la propuesta.</li>
-        <li>Prometer <strong>funcionalidades, integraciones o fechas de entrega</strong>.</li>
+        <li><strong>Hablar de precio.</strong> Ni cifras, ni rangos, ni “debe salir como…”, ni descuentos.</li>
+        <li>Prometer <strong>funcionalidades, integraciones, plazos de entrega o garantías</strong>.</li>
         <li><strong>Firmar</strong> en nombre de Manto.</li>
       </ul>
       <p>
+        Si el cliente pregunta cuánto cuesta, la respuesta es que depende del alcance
+        y que eso se ve en la reunión con el equipo. Es una respuesta legítima y
+        además cierta: el precio sale del alcance, y el alcance se define ahí.
+      </p>
+      <p>
+        Adelantar una cifra ancla la negociación antes de que empiece, y esa cifra
+        casi siempre queda por debajo. Como tu comisión es un porcentaje del setup,
+        el número que se adelanta en la demo te lo terminas descontando a ti mismo.
+      </p>
+      <p>
         Un alcance prometido y no aprobado lo asume comercialmente quien lo prometió:
-        el costo de cumplirlo se descuenta de esa comisión. La razón es simple — lo
-        que se promete en la reunión lo termina construyendo alguien, y sale de la
-        misma bolsa que paga tu comisión.
+        el costo de cumplirlo se descuenta de esa comisión.
       </p>
     </div>
   </section>
 
   <section>
-    <div class="eyebrow">06 — La herramienta</div>
+    <div class="eyebrow">07 — La herramienta</div>
     <h2>Una sola planilla, una fila por lead</h2>
     <p>
       Todo lo anterior se apoya en una hoja compartida. Si algo no está ahí, no
@@ -534,15 +620,19 @@
       <code>origen</code>
       <code>estado</code>
       <code>servicio</code>
-      <code>setup_acordado</code>
-      <code>mensualidad</code>
+      <code>fecha_reunion</code>
+      <code>quien_asistio</code>
       <code>notas</code>
     </div>
     <p>
       El <code>estado</code> se mueve entre <em>registrado · reunión · propuesta ·
-      cerrado · perdido · vencido</em>. Los campos de descuento, nivel de comisión,
-      fecha de cobro y monto pagado los llena Manto, y quedan a la vista para que
-      puedas revisar tu propio cálculo cuando quieras.
+      cerrado · perdido · vencido</em>. El campo <code>quien_asistio</code> es el que
+      define si la reunión califica según el estándar de la sección 03, así que
+      conviene ser preciso ahí: nombre y cargo.
+    </p>
+    <p>
+      Los campos de precio, descuento, fecha de cobro y monto pagado los llena Manto,
+      y quedan a la vista para que puedas revisar tu propio cálculo cuando quieras.
     </p>
   </section>
 
