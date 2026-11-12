@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CAA18FA5-0422-46C4-A066-EFF1E6DCC943}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlMarket.Entidades", "src\ControlMarket.Entidades\ControlMarket.Entidades.csproj", "{47161EAB-5D76-4A32-ADCF-EF8803F082D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlMarket.Datos", "src\ControlMarket.Datos\ControlMarket.Datos.csproj", "{A3EE4460-8F53-4799-8300-943869C098B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlMarket.Negocio", "src\ControlMarket.Negocio\ControlMarket.Negocio.csproj", "{753AA37F-40F2-4CE4-870D-701621337F85}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B4162992-69C2-4987-A327-B9DA1FF47F21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlMarket.Pruebas", "tests\ControlMarket.Pruebas\ControlMarket.Pruebas.csproj", "{318120AC-D4F3-41B6-8A13-06058A51CD5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47161EAB-5D76-4A32-ADCF-EF8803F082D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47161EAB-5D76-4A32-ADCF-EF8803F082D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47161EAB-5D76-4A32-ADCF-EF8803F082D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47161EAB-5D76-4A32-ADCF-EF8803F082D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3EE4460-8F53-4799-8300-943869C098B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3EE4460-8F53-4799-8300-943869C098B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3EE4460-8F53-4799-8300-943869C098B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3EE4460-8F53-4799-8300-943869C098B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{753AA37F-40F2-4CE4-870D-701621337F85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{753AA37F-40F2-4CE4-870D-701621337F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{753AA37F-40F2-4CE4-870D-701621337F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{753AA37F-40F2-4CE4-870D-701621337F85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{318120AC-D4F3-41B6-8A13-06058A51CD5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{318120AC-D4F3-41B6-8A13-06058A51CD5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{318120AC-D4F3-41B6-8A13-06058A51CD5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{318120AC-D4F3-41B6-8A13-06058A51CD5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{47161EAB-5D76-4A32-ADCF-EF8803F082D0} = {CAA18FA5-0422-46C4-A066-EFF1E6DCC943}
+		{A3EE4460-8F53-4799-8300-943869C098B1} = {CAA18FA5-0422-46C4-A066-EFF1E6DCC943}
+		{753AA37F-40F2-4CE4-870D-701621337F85} = {CAA18FA5-0422-46C4-A066-EFF1E6DCC943}
+		{318120AC-D4F3-41B6-8A13-06058A51CD5B} = {B4162992-69C2-4987-A327-B9DA1FF47F21}
+	EndGlobalSection
+EndGlobal
