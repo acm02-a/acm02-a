@@ -17,9 +17,14 @@ internal static class Program
         }
         catch (Exception ex)
         {
+            var detalle = ex.InnerException?.Message ?? ex.Message;
+            var sqlEx = ex as Microsoft.Data.SqlClient.SqlException ?? ex.InnerException as Microsoft.Data.SqlClient.SqlException;
+            var conexion = sqlEx == null || sqlEx.Number is 2 or 53 or 4060 or 18456 or -1 or 26;
             MessageBox.Show(
-                "No se pudo conectar con SQL Server.\n\nRevise la cadena de conexión en appsettings.json.\n\nDetalle: " +
-                (ex.InnerException?.Message ?? ex.Message),
+                (conexion
+                    ? "No se pudo conectar con SQL Server.\n\nRevise la cadena de conexión en appsettings.json."
+                    : "Se conectó a SQL Server, pero la base de datos no tiene la estructura esperada.\n\nEjecute database/01_db_ControlMarket_integrante2.sql y luego database/02_ajustes_integrante3.sql.") +
+                "\n\nDetalle: " + detalle,
                 "ControlMarket", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }

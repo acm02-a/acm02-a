@@ -15,4 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ControlMarket.Entidades\ControlMarket.Entidades.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- Script de ajustes sobre la BD del Integrante 2: la app lo aplica sola si faltan tablas/columnas -->
+    <EmbeddedResource Include="..\..\database\02_ajustes_integrante3.sql" LogicalName="AjustesBD.sql" />
+  </ItemGroup>
 </Project>

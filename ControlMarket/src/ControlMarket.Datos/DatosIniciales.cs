@@ -61,11 +61,40 @@ public static class DatosIniciales
         }
     }
 
+    /// <summary>
+    /// Si la BD se creó con el script del Integrante 2 y aún no tiene los ajustes
+    /// (tabla Parametro, columnas nuevas…), ejecuta 02_ajustes_integrante3.sql (embebido).
+    /// </summary>
+    public static void AplicarAjustesSiFaltan(ControlMarketContext db)
+    {
+        var faltan = db.Database.SqlQueryRaw<int>(
+            "SELECT CASE WHEN OBJECT_ID('dbo.Parametro','U') IS NULL OR COL_LENGTH('dbo.Producto','Activo') IS NULL THEN 1 ELSE 0 END AS Value")
+            .AsEnumerable().First() == 1;
+        if (!faltan) return;
+
+        using var stream = typeof(DatosIniciales).Assembly.GetManifestResourceStream("AjustesBD.sql")
+                           ?? throw new InvalidOperationException("No se encontró el script de ajustes embebido.");
+        using var reader = new StreamReader(stream);
+        var script = reader.ReadToEnd();
+
+        // Se ejecuta lote por lote (separados por GO), sobre la BD de la cadena de conexión.
+        var lotes = System.Text.RegularExpressions.Regex.Split(script, @"^\s*GO\s*$",
+            System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        foreach (var lote in lotes)
+        {
+            var sql = System.Text.RegularExpressions.Regex.Replace(lote, @"^\s*USE\s+\[?\w+\]?\s*;?\s*$", "",
+                System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase).Trim();
+            if (sql.Length > 0) db.Database.ExecuteSqlRaw(sql);
+        }
+    }
+
     /// <summary>Aplica migraciones pendientes (crea la BD si no existe) y carga los datos mínimos.</summary>
     public static void Inicializar(ControlMarketContext db, bool aplicarMigraciones)
     {
         if (aplicarMigraciones && db.Database.IsRelational())
             db.Database.Migrate();
+        else if (db.Database.IsRelational())
+            AplicarAjustesSiFaltan(db);
         else if (!db.Database.IsRelational())
             db.Database.EnsureCreated();
         Asegurar(db);
