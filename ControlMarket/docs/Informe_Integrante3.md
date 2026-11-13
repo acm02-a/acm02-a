@@ -49,8 +49,13 @@ de contextos con la cadena de conexión y crea los servicios que usan los formul
   automáticos ante fallos transitorios (`EnableRetryOnFailure`). La cadena está en `appsettings.json`.
 - **Contextos de vida corta:** cada operación crea y libera su propio `DbContext` (recomendado en
   aplicaciones de escritorio).
-- **Migraciones:** la migración `Inicial` crea toda la BD; al iniciar la aplicación se aplica
-  automáticamente (`Database.Migrate()`). El script equivalente está en `database/ControlMarket_EFCore.sql`.
+- **Integración con la BD del Integrante 2:** la aplicación trabaja sobre `db_ControlMarket`, creada con el
+  script del Integrante 2 (`database/01_db_ControlMarket_integrante2.sql`). El mapeo de EF Core respeta
+  sus nombres de tablas y columnas, sus tipos y qué claves son IDENTITY (por ejemplo, `Categoria.IdCategoria`
+  no es IDENTITY, así que la capa de negocio asigna el siguiente número). El script
+  `02_ajustes_integrante3.sql` agrega lo que necesitan las pantallas (sección 6).
+- **Migraciones:** como alternativa, la migración `Inicial` crea la BD completa desde cero
+  (`"AplicarMigraciones": true`). El script equivalente está en `database/ControlMarket_EFCore.sql`.
 - **Auditoría automática (RNF06):** todas las entidades heredan de `EntidadAuditable`
   (`CreatedBy`, `CreatedAt`, `ModifiedBy`, `ModifiedAt`). `SaveChanges()` se sobrescribe para llenarlos
   con el usuario logueado y la fecha/hora, sin que los formularios tengan que hacerlo.
@@ -92,7 +97,9 @@ de contextos con la cadena de conexión y crea los servicios que usan los formul
 ## 6. Ajustes al modelo de datos (coordinar con Integrantes 1 y 2)
 
 Para que los formularios del prototipo funcionen se necesitaron estos campos/tabla que no estaban en el
-diagrama de BD original. Están incluidos en la migración y en `database/ControlMarket_EFCore.sql`:
+diagrama de BD ni en el script del Integrante 2. Se agregan con `database/02_ajustes_integrante3.sql`
+(que además crea los UNIQUE y CHECK del diccionario de datos, pone `Producto.Nombre` en `varchar(100)`
+y hace obligatoria `Lote.FechaVencimiento`):
 
 | Tabla | Cambio | Motivo |
 |---|---|---|
@@ -103,11 +110,12 @@ diagrama de BD original. Están incluidos en la migración y en `database/Contro
 | `DetalleVenta` | + `CostoUnitario decimal(10,2)` | Congelar el precio de compra para el reporte de rentabilidad. |
 | `Comprobante` | + `DocumentoCliente varchar(11) NULL`; `UNIQUE(Serie, Numero)` | DNI/RUC del cliente; evitar números repetidos. |
 | **`Parametro`** (nueva) | `RazonSocial`, `Ruc`, `Direccion`, `PorcentajeIgv`, `DiasAlertaVencimiento` | RF Parámetros generales. |
-| Todas | `ModifiedBy` / `ModifiedAt` admiten NULL | Un registro recién creado aún no tiene modificación. |
+| Varias | `UNIQUE` en `Username`, `CodigoBarras`, `Ruc`, `Categoria.Nombre`, `Comprobante(IdVenta)` y `(Serie, Numero)` | Indicados en el diccionario de datos y faltaban en el script. |
+| `Lote` | `FechaVencimiento` pasa a `NOT NULL` | Sin fecha no hay alertas ni descuento FEFO. |
 
 ## 7. Pruebas realizadas
 
-Se implementaron **23 pruebas automáticas** (xUnit) que se ejecutan con `dotnet test`; todas pasan:
+Se implementaron **26 pruebas automáticas** (xUnit) que se ejecutan con `dotnet test`; todas pasan:
 
 - **Seguridad:** login correcto/incorrecto, usuario desactivado, permisos por rol, username duplicado, hash de contraseña.
 - **Auditoría y catálogo:** llenado de `CreatedBy/ModifiedBy`, códigos únicos, validación de precios y RUC, parámetros.
@@ -115,6 +123,8 @@ Se implementaron **23 pruebas automáticas** (xUnit) que se ejecutan con `dotnet
 - **Ventas:** cálculo de IGV, restricción de stock, descuento FEFO, correlativo de boletas/facturas,
   venta cancelada sin modificar stock, comprobante.
 - **Reportes:** ventas por fecha/cajero, rentabilidad, productos críticos y Top 5.
+- **Compatibilidad con la BD del Integrante 2:** Id correlativo de categorías, Id fijos de roles y métodos de pago,
+  productos inactivos guardados correctamente.
 
 Además se verificó que todas las consultas de reportes se traducen correctamente a T-SQL de SQL Server
 y que la migración genera el script completo de creación de la base de datos.

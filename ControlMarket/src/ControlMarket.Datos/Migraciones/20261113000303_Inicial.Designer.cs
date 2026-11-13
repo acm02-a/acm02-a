@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControlMarket.Datos.Migraciones
 {
     [DbContext(typeof(ControlMarketContext))]
-    [Migration("20261112210517_Inicial")]
+    [Migration("20261113000303_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -28,10 +28,7 @@ namespace ControlMarket.Datos.Migraciones
             modelBuilder.Entity("ControlMarket.Entidades.Categoria", b =>
                 {
                     b.Property<int>("IdCategoria")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategoria"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -266,7 +263,10 @@ namespace ControlMarket.Datos.Migraciones
             modelBuilder.Entity("ControlMarket.Entidades.MetodoPago", b =>
                 {
                     b.Property<int>("IdMetodoPago")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMetodoPago"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -333,7 +333,7 @@ namespace ControlMarket.Datos.Migraciones
 
                     b.Property<string>("Ruc")
                         .IsRequired()
-                        .HasColumnType("char(11)");
+                        .HasColumnType("varchar(11)");
 
                     b.HasKey("IdParametro");
 
@@ -354,9 +354,7 @@ namespace ControlMarket.Datos.Migraciones
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProducto"));
 
                     b.Property<bool>("Activo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.Property<string>("CodigoBarras")
                         .IsRequired()
@@ -437,7 +435,7 @@ namespace ControlMarket.Datos.Migraciones
 
                     b.Property<string>("Ruc")
                         .IsRequired()
-                        .HasColumnType("char(11)");
+                        .HasColumnType("varchar(11)");
 
                     b.Property<string>("Telefono")
                         .HasColumnType("varchar(15)");
@@ -453,7 +451,10 @@ namespace ControlMarket.Datos.Migraciones
             modelBuilder.Entity("ControlMarket.Entidades.Rol", b =>
                 {
                     b.Property<int>("IdRol")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRol"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -491,9 +492,7 @@ namespace ControlMarket.Datos.Migraciones
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUsuario"));
 
                     b.Property<bool>("Activo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -601,7 +600,7 @@ namespace ControlMarket.Datos.Migraciones
                     b.HasOne("ControlMarket.Entidades.Venta", "Venta")
                         .WithOne("Comprobante")
                         .HasForeignKey("ControlMarket.Entidades.Comprobante", "IdVenta")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Venta");
@@ -618,7 +617,7 @@ namespace ControlMarket.Datos.Migraciones
                     b.HasOne("ControlMarket.Entidades.Venta", "Venta")
                         .WithMany("Detalles")
                         .HasForeignKey("IdVenta")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Producto");

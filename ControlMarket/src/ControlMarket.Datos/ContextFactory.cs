@@ -40,7 +40,7 @@ public class DesignTimeFactory : IDesignTimeDbContextFactory<ControlMarketContex
     public ControlMarketContext CreateDbContext(string[] args)
     {
         var cs = Environment.GetEnvironmentVariable("CONTROLMARKET_CS")
-                 ?? "Server=localhost;Database=ControlMarketDB;Trusted_Connection=True;TrustServerCertificate=True;";
+                 ?? "Server=localhost;Database=db_ControlMarket;Trusted_Connection=True;TrustServerCertificate=True;";
         var options = new DbContextOptionsBuilder<ControlMarketContext>().UseSqlServer(cs).Options;
         return new ControlMarketContext(options);
     }

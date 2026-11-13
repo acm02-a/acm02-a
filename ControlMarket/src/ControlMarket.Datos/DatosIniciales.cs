@@ -16,18 +16,21 @@ public static class DatosIniciales
     {
         if (!db.Roles.Any())
         {
-            db.Roles.AddRange(
-                new Rol { IdRol = Rol.Administrador, NombreRol = "Administrador" },
-                new Rol { IdRol = Rol.JefeAlmacen, NombreRol = "JefeAlmacen" },
-                new Rol { IdRol = Rol.Cajero, NombreRol = "Cajero" });
+            // Uno por uno para que el IDENTITY asigne 1, 2, 3 en este orden.
+            foreach (var nombre in new[] { "Administrador", "JefeAlmacen", "Cajero" })
+            {
+                db.Roles.Add(new Rol { NombreRol = nombre });
+                db.SaveChanges();
+            }
         }
 
         if (!db.MetodosPago.Any())
         {
-            db.MetodosPago.AddRange(
-                new MetodoPago { IdMetodoPago = MetodoPago.Efectivo, Nombre = "Efectivo" },
-                new MetodoPago { IdMetodoPago = 2, Nombre = "Tarjeta" },
-                new MetodoPago { IdMetodoPago = 3, Nombre = "BilleteraDigital" });
+            foreach (var nombre in new[] { "Efectivo", "Tarjeta", "BilleteraDigital" })
+            {
+                db.MetodosPago.Add(new MetodoPago { Nombre = nombre });
+                db.SaveChanges();
+            }
         }
 
         if (!db.Parametros.Any())

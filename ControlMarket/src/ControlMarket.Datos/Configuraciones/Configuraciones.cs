@@ -12,7 +12,7 @@ internal class RolConfig : IEntityTypeConfiguration<Rol>
     {
         b.ToTable("Rol");
         b.HasKey(e => e.IdRol);
-        b.Property(e => e.IdRol).ValueGeneratedNever(); // 1=Administrador, 2=JefeAlmacen, 3=Cajero
+        // IDENTITY (script del Integrante 2). Se insertan en orden: 1=Administrador, 2=JefeAlmacen, 3=Cajero
         b.Property(e => e.NombreRol).HasColumnType("varchar(50)").IsRequired();
         b.HasIndex(e => e.NombreRol).IsUnique();
         b.ConfigurarAuditoria();
@@ -29,7 +29,6 @@ internal class UsuarioConfig : IEntityTypeConfiguration<Usuario>
         b.Property(e => e.Username).HasColumnType("varchar(50)").IsRequired();
         b.HasIndex(e => e.Username).IsUnique();
         b.Property(e => e.PasswordHash).HasColumnType("varchar(256)").IsRequired();
-        b.Property(e => e.Activo).HasDefaultValue(true);
         b.HasOne(e => e.Rol).WithMany(r => r.Usuarios).HasForeignKey(e => e.IdRol).OnDelete(DeleteBehavior.Restrict);
         b.ConfigurarAuditoria();
     }
@@ -41,6 +40,7 @@ internal class CategoriaConfig : IEntityTypeConfiguration<Categoria>
     {
         b.ToTable("Categoria");
         b.HasKey(e => e.IdCategoria);
+        b.Property(e => e.IdCategoria).ValueGeneratedNever(); // no es IDENTITY en db_ControlMarket
         b.Property(e => e.Nombre).HasColumnType("varchar(50)").IsRequired();
         b.HasIndex(e => e.Nombre).IsUnique();
         b.Property(e => e.Descripcion).HasColumnType("varchar(150)");
@@ -63,7 +63,6 @@ internal class ProductoConfig : IEntityTypeConfiguration<Producto>
         b.Property(e => e.Nombre).HasColumnType("varchar(100)").IsRequired();
         b.Property(e => e.PrecioCompra).HasColumnType("decimal(10,2)");
         b.Property(e => e.PrecioVenta).HasColumnType("decimal(10,2)");
-        b.Property(e => e.Activo).HasDefaultValue(true);
         b.HasOne(e => e.Categoria).WithMany(c => c.Productos).HasForeignKey(e => e.IdCategoria).OnDelete(DeleteBehavior.Restrict);
         b.ConfigurarAuditoria();
     }
@@ -75,7 +74,7 @@ internal class ProveedorConfig : IEntityTypeConfiguration<Proveedor>
     {
         b.ToTable("Proveedor");
         b.HasKey(e => e.IdProveedor);
-        b.Property(e => e.Ruc).HasColumnType("char(11)").IsRequired();
+        b.Property(e => e.Ruc).HasColumnType("varchar(11)").IsRequired();
         b.HasIndex(e => e.Ruc).IsUnique();
         b.Property(e => e.RazonSocial).HasColumnType("varchar(150)").IsRequired();
         b.Property(e => e.Telefono).HasColumnType("varchar(15)");
@@ -121,7 +120,7 @@ internal class MetodoPagoConfig : IEntityTypeConfiguration<MetodoPago>
     {
         b.ToTable("MetodoPago");
         b.HasKey(e => e.IdMetodoPago);
-        b.Property(e => e.IdMetodoPago).ValueGeneratedNever();
+        // IDENTITY (script del Integrante 2). 1 = Efectivo
         b.Property(e => e.Nombre).HasColumnType("varchar(50)").IsRequired();
         b.HasIndex(e => e.Nombre).IsUnique();
         b.ConfigurarAuditoria();
@@ -155,7 +154,7 @@ internal class DetalleVentaConfig : IEntityTypeConfiguration<DetalleVenta>
         b.HasKey(e => e.IdDetalleVenta);
         b.Property(e => e.PrecioUnitario).HasColumnType("decimal(10,2)");
         b.Property(e => e.CostoUnitario).HasColumnType("decimal(10,2)");
-        b.HasOne(e => e.Venta).WithMany(v => v.Detalles).HasForeignKey(e => e.IdVenta).OnDelete(DeleteBehavior.Cascade);
+        b.HasOne(e => e.Venta).WithMany(v => v.Detalles).HasForeignKey(e => e.IdVenta).OnDelete(DeleteBehavior.Restrict);
         b.HasOne(e => e.Producto).WithMany(p => p.Detalles).HasForeignKey(e => e.IdProducto).OnDelete(DeleteBehavior.Restrict);
         b.ConfigurarAuditoria();
     }
@@ -172,7 +171,7 @@ internal class ComprobanteConfig : IEntityTypeConfiguration<Comprobante>
         b.Property(e => e.DocumentoCliente).HasColumnType("varchar(11)");
         b.HasIndex(e => new { e.Serie, e.Numero }).IsUnique();
         b.HasIndex(e => e.IdVenta).IsUnique(); // relación 1 a 1 con Venta
-        b.HasOne(e => e.Venta).WithOne(v => v.Comprobante).HasForeignKey<Comprobante>(e => e.IdVenta).OnDelete(DeleteBehavior.Cascade);
+        b.HasOne(e => e.Venta).WithOne(v => v.Comprobante).HasForeignKey<Comprobante>(e => e.IdVenta).OnDelete(DeleteBehavior.Restrict);
         b.Ignore(e => e.NumeroCompleto);
         b.ConfigurarAuditoria();
     }
@@ -189,7 +188,7 @@ internal class ParametroConfig : IEntityTypeConfiguration<Parametro>
         });
         b.HasKey(e => e.IdParametro);
         b.Property(e => e.RazonSocial).HasColumnType("varchar(150)").IsRequired();
-        b.Property(e => e.Ruc).HasColumnType("char(11)").IsRequired();
+        b.Property(e => e.Ruc).HasColumnType("varchar(11)").IsRequired();
         b.Property(e => e.Direccion).HasColumnType("varchar(200)");
         b.Property(e => e.PorcentajeIgv).HasColumnType("decimal(5,2)");
         b.ConfigurarAuditoria();

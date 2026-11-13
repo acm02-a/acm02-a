@@ -25,7 +25,9 @@ public class CatalogoService : ServicioBase
         if (db.Categorias.Any(c => c.Nombre == nom && c.IdCategoria != idCategoria))
             throw new NegocioException($"La categoría '{nom}' ya existe.");
 
-        var c = idCategoria == 0 ? db.Categorias.Add(new Categoria()).Entity
+        // IdCategoria no es IDENTITY en la BD: se asigna el siguiente número.
+        var c = idCategoria == 0
+            ? db.Categorias.Add(new Categoria { IdCategoria = (db.Categorias.Max(x => (int?)x.IdCategoria) ?? 0) + 1 }).Entity
             : db.Categorias.Find(idCategoria) ?? throw new NegocioException("La categoría no existe.");
         c.Nombre = nom;
         c.Descripcion = Opcional(descripcion, "Descripción", 150);

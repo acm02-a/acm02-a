@@ -15,8 +15,7 @@ namespace ControlMarket.Datos.Migraciones
                 name: "Categoria",
                 columns: table => new
                 {
-                    IdCategoria = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdCategoria = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "varchar(50)", nullable: false),
                     Descripcion = table.Column<string>(type: "varchar(150)", nullable: true),
                     CreatedBy = table.Column<string>(type: "varchar(50)", nullable: false),
@@ -33,7 +32,8 @@ namespace ControlMarket.Datos.Migraciones
                 name: "MetodoPago",
                 columns: table => new
                 {
-                    IdMetodoPago = table.Column<int>(type: "int", nullable: false),
+                    IdMetodoPago = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "varchar(50)", nullable: false),
                     CreatedBy = table.Column<string>(type: "varchar(50)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "GETDATE()"),
@@ -52,7 +52,7 @@ namespace ControlMarket.Datos.Migraciones
                     IdParametro = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RazonSocial = table.Column<string>(type: "varchar(150)", nullable: false),
-                    Ruc = table.Column<string>(type: "char(11)", nullable: false),
+                    Ruc = table.Column<string>(type: "varchar(11)", nullable: false),
                     Direccion = table.Column<string>(type: "varchar(200)", nullable: true),
                     PorcentajeIgv = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     DiasAlertaVencimiento = table.Column<int>(type: "int", nullable: false),
@@ -74,7 +74,7 @@ namespace ControlMarket.Datos.Migraciones
                 {
                     IdProveedor = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Ruc = table.Column<string>(type: "char(11)", nullable: false),
+                    Ruc = table.Column<string>(type: "varchar(11)", nullable: false),
                     RazonSocial = table.Column<string>(type: "varchar(150)", nullable: false),
                     Telefono = table.Column<string>(type: "varchar(15)", nullable: true),
                     CreatedBy = table.Column<string>(type: "varchar(50)", nullable: false),
@@ -91,7 +91,8 @@ namespace ControlMarket.Datos.Migraciones
                 name: "Rol",
                 columns: table => new
                 {
-                    IdRol = table.Column<int>(type: "int", nullable: false),
+                    IdRol = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     NombreRol = table.Column<string>(type: "varchar(50)", nullable: false),
                     CreatedBy = table.Column<string>(type: "varchar(50)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "GETDATE()"),
@@ -115,7 +116,7 @@ namespace ControlMarket.Datos.Migraciones
                     PrecioCompra = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     PrecioVenta = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     StockMinimo = table.Column<int>(type: "int", nullable: false),
-                    Activo = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "varchar(50)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "GETDATE()"),
                     ModifiedBy = table.Column<string>(type: "varchar(50)", nullable: true),
@@ -144,7 +145,7 @@ namespace ControlMarket.Datos.Migraciones
                     Nombre = table.Column<string>(type: "varchar(100)", nullable: false),
                     Username = table.Column<string>(type: "varchar(50)", nullable: false),
                     PasswordHash = table.Column<string>(type: "varchar(256)", nullable: false),
-                    Activo = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    Activo = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "varchar(50)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "GETDATE()"),
                     ModifiedBy = table.Column<string>(type: "varchar(50)", nullable: true),
@@ -290,7 +291,7 @@ namespace ControlMarket.Datos.Migraciones
                         column: x => x.IdVenta,
                         principalTable: "Venta",
                         principalColumn: "IdVenta",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -324,7 +325,7 @@ namespace ControlMarket.Datos.Migraciones
                         column: x => x.IdVenta,
                         principalTable: "Venta",
                         principalColumn: "IdVenta",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
