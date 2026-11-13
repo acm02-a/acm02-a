@@ -43,7 +43,7 @@ Presentacion ──► Negocio ──► Datos ──► Entidades
    "ControlMarket": "Server=localhost\\SQL2026;Database=db_ControlMarket;Trusted_Connection=True;TrustServerCertificate=True;"
    ```
    `SQL2026` es el nombre de la instancia que usó el Integrante 2. En otra PC puede ser
-   `localhost\\SQLEXPRESS`, `localhost` o `(localdb)\\MSSQLLocalDB`.
+   `localhost\SQLEXPRESS`, `localhost` o `(localdb)\MSSQLLocalDB`.
 4. Establecer **ControlMarket.Presentacion** como proyecto de inicio y presionar **F5**.
    Al iniciar, la aplicación inserta lo mínimo que falte: roles, métodos de pago, parámetros y el usuario admin.
 5. Iniciar sesión con **admin / Admin123\*** (cambiar la contraseña desde *Gestión de usuarios*).
